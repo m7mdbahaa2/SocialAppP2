@@ -1,7 +1,7 @@
 import React from 'react'
 
-import { Footer, FooterCopyright, FooterLink, FooterLinkGroup } from "flowbite-react";
-import { Link } from 'react-router-dom';
+import { Footer, FooterCopyright, FooterLink, FooterLinkGroup, NavbarLink } from "flowbite-react";
+import { Link, NavLink } from 'react-router-dom';
 
 export function AppFooter() {
     return (
@@ -11,6 +11,8 @@ export function AppFooter() {
                 <FooterLink as={Link} to='/'>Home</FooterLink>
                 <FooterLink as={Link} to='profile'>Profile</FooterLink>
                 <FooterLink as={Link} to='login'>Login</FooterLink>
+                <FooterLink as={Link} to='counter' className='bg-blue-300 px-3 py-1'>Counter</FooterLink>
+
             </FooterLinkGroup>
         </Footer>
     );

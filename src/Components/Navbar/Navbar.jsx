@@ -63,6 +63,7 @@ export default function AppNavbar() {
                         Home
                     </NavbarLink>
                     <NavbarLink as={NavLink} to='posts' >Posts</NavbarLink>
+                    <NavbarLink as={NavLink} to='counter' >Counter</NavbarLink>
                 </NavbarCollapse>
                 }
             </Navbar>
