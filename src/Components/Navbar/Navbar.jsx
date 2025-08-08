@@ -13,14 +13,16 @@ import {
     NavbarToggle,
 } from "flowbite-react";
 import { Link, NavLink } from 'react-router-dom';
-import { CounterContext } from '../Context/CounterContext';
+// import { CounterContext } from '../Context/CounterContext';
 import { AuthContext } from '../Context/AuthContext';
 
 export default function AppNavbar() {
 
-    const { counter } = useContext(CounterContext)
-    console.log(counter);
-    const { token } = useContext(AuthContext)
+    // const { counter } = useContext(CounterContext)
+    const { token, logOut } = useContext(AuthContext)
+
+
+    // console.log(counter);
 
     return (
         <div className="container mx-auto px-24">
@@ -46,7 +48,7 @@ export default function AppNavbar() {
 
                         {token ? <><DropdownItem as={Link} to='profile'>Profile</DropdownItem>
                             <DropdownDivider />
-                            <DropdownItem as={Button}>Sign out</DropdownItem>
+                            <DropdownItem as={Button} onClick={logOut}>Sign out</DropdownItem>
 
                         </> : <><DropdownItem as={Link} to='login'>Login</DropdownItem>
                             <DropdownItem as={Link} to='register'>Register</DropdownItem>
@@ -62,7 +64,8 @@ export default function AppNavbar() {
                     </NavbarLink>
                     <NavbarLink as={NavLink} to='posts' >Posts</NavbarLink>
                 </NavbarCollapse>
-                }            </Navbar>
+                }
+            </Navbar>
         </div>
     );
 }

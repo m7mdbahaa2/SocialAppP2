@@ -11,6 +11,8 @@ import Profile from './Components/Pages/Profile/Profile';
 import CounterContextProvider from './Components/Context/CounterContext';
 import Counter from './Components/Pages/Counter/Counter';
 import AuthContextProvider, { AuthContext } from './Components/Context/AuthContext';
+import ProtectedRoutes from './Components/ProtectRoutes/ProtectedRoutes';
+import ProtectedAuthRoutes from './Components/ProtectRoutes/ProtectedAuthRoutes';
 
 function App() {
 
@@ -22,22 +24,32 @@ function App() {
       element: <Home />
     }, {
       path: 'about',
-      element: <About />
+      element: <ProtectedRoutes>
+        <About />
+      </ProtectedRoutes>
     }, {
       path: 'posts',
-      element: <Posts />
+      element: <ProtectedRoutes>
+        <Posts />
+      </ProtectedRoutes>
     }, {
       path: 'notfound',
       element: <NotFound />
     }, {
       path: 'login',
-      element: <Login />
+      element: <ProtectedAuthRoutes>
+        <Login />
+      </ProtectedAuthRoutes>
     }, {
       path: 'register',
-      element: <Register />
+      element: <ProtectedAuthRoutes>
+        <Register />
+      </ProtectedAuthRoutes>
     }, {
       path: 'profile',
-      element: <Profile />
+      element: <ProtectedRoutes>
+        <Profile />
+      </ProtectedRoutes>
     }, {
       path: 'counter',
       element: <Counter />

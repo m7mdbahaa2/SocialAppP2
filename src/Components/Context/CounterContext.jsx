@@ -15,7 +15,7 @@ export default function CounterContextProvider({ children }) {
     }
     function decreament() {
         setCounter(counter - 1)
-        console.log(counter);
+        // console.log(counter);
     }
 
     return (

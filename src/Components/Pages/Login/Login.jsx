@@ -21,7 +21,7 @@ const schema = z.object({
 export default function Login() {
 
     const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), })
-    const navigate = useNavigate
+    const navigate = useNavigate()
 
     const [apiError, setApiError] = useState(null)
 
@@ -35,13 +35,13 @@ export default function Login() {
             console.log(response.message);
 
             if (response.message === "success") {
-                localStorage.setItem("Token", response.token)
+                localStorage.setItem("token", response.token)
                 setApiError(null)
                 navigate('/')
                 setToken(response.token)
             } else {
-                throw new Error("invalid login date");
                 setApiError(error.response.data.error)
+                throw new Error("invalid login date");
             }
         } catch (error) {
             console.log(error);
