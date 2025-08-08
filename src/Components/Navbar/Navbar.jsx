@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import {
     Avatar,
     Button,
@@ -13,8 +13,15 @@ import {
     NavbarToggle,
 } from "flowbite-react";
 import { Link, NavLink } from 'react-router-dom';
+import { CounterContext } from '../Context/CounterContext';
+import { AuthContext } from '../Context/AuthContext';
 
 export default function AppNavbar() {
+
+    const { counter } = useContext(CounterContext)
+    console.log(counter);
+    const { token } = useContext(AuthContext)
+
     return (
         <div className="container mx-auto px-24">
             <Navbar>
@@ -35,23 +42,27 @@ export default function AppNavbar() {
                             <span className="block text-sm">Bonnie Green</span>
                             <span className="block truncate text-sm font-medium">name@flowbite.com</span>
                         </DropdownHeader>
-                        <DropdownItem as={Link} to='login'>Login</DropdownItem>
-                        <DropdownItem as={Link} to='register'>Register</DropdownItem>
-                        <DropdownItem as={Link} to='profile'>Profile</DropdownItem>
-                        <DropdownDivider />
-                        <DropdownItem as={Button}>Sign out</DropdownItem>
+
+
+                        {token ? <><DropdownItem as={Link} to='profile'>Profile</DropdownItem>
+                            <DropdownDivider />
+                            <DropdownItem as={Button}>Sign out</DropdownItem>
+
+                        </> : <><DropdownItem as={Link} to='login'>Login</DropdownItem>
+                            <DropdownItem as={Link} to='register'>Register</DropdownItem>
+                        </>}
                     </Dropdown>
                     <NavbarToggle />
                 </div>
 
 
-                <NavbarCollapse>
+                {token && <NavbarCollapse>
                     <NavbarLink as={NavLink} to='/'>
                         Home
                     </NavbarLink>
                     <NavbarLink as={NavLink} to='posts' >Posts</NavbarLink>
                 </NavbarCollapse>
-            </Navbar>
+                }            </Navbar>
         </div>
     );
 }

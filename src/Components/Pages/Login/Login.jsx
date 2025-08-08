@@ -1,15 +1,31 @@
 
+import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
-import { Button, Checkbox, Label, Radio, TextInput } from "flowbite-react";
+import { Alert, Button, Checkbox, Label, Radio, TextInput } from "flowbite-react";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
-// import Link from "next/link";
+import * as z from "zod";
+import AppButton from "../../Shared/AppButton/AppButton";
+import { useContext, useState } from "react";
+import { HiInformationCircle } from "react-icons/hi";
+import { CounterContext } from "../../Context/CounterContext";
+import Tests from "../../Tests/Tests";
+import { AuthContext } from "../../Context/AuthContext";
+
+
+const schema = z.object({
+    email: z.email(),
+    password: z.string().min(8, { message: "password cannot be shorter than 8 characters" }),
+})
 
 export default function Login() {
 
-    const { register, handleSubmit, formState: { errors } } = useForm()
+    const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm({ resolver: zodResolver(schema), })
     const navigate = useNavigate
 
+    const [apiError, setApiError] = useState(null)
+
+    const { setToken } = useContext(AuthContext)
     async function onClick(data) {
         console.log(data);
 
@@ -19,10 +35,13 @@ export default function Login() {
             console.log(response.message);
 
             if (response.message === "success") {
+                localStorage.setItem("Token", response.token)
+                setApiError(null)
                 navigate('/')
+                setToken(response.token)
             } else {
                 throw new Error("invalid login date");
-
+                setApiError(error.response.data.error)
             }
         } catch (error) {
             console.log(error);
@@ -37,12 +56,22 @@ export default function Login() {
                 onSubmit={handleSubmit(onClick)}
                 className="flex flex-col gap-4">
 
+                {/* ************************* ApiError ************************** */}
+                {apiError && <Alert color="failure" icon={HiInformationCircle}>
+                    <span className="font-medium">
+                        <p> {apiError}</p>
+
+                    </span>
+                </Alert>}
+
+
                 {/* ************************* Email ************************** */}
                 <div>
                     <div className="mb-2 block">
                         <Label htmlFor="email">Your email</Label>
                     </div>
                     <TextInput {...register('email')} id="email" type="email" placeholder="Mohamed@Bahaa.com" shadow />
+                    <p className="text-red-600">{errors.email?.message}</p>
                 </div>
                 {/* ************************* Password ************************** */}
                 <div>
@@ -52,7 +81,10 @@ export default function Login() {
                     <TextInput {...register('password', { required: 'enter a valid password' })} id="password" type="password" placeholder="Enter your password" shadow />
                     {errors.password && <p className="text-red-700">{errors.password.message}</p>}
                 </div>
-                <Button type="submit">Submit</Button>
+
+
+                <AppButton isLoading={isSubmitting}>Login</AppButton>
+                {/* <Button type="submit">Submit</Button> */}
             </form>
         </div >
     );

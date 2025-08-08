@@ -8,6 +8,9 @@ import NotFound from './Components/Pages/NotFound/NotFound';
 import Login from './Components/Pages/Login/Login';
 import Register from './Components/Pages/Register/Register';
 import Profile from './Components/Pages/Profile/Profile';
+import CounterContextProvider from './Components/Context/CounterContext';
+import Counter from './Components/Pages/Counter/Counter';
+import AuthContextProvider, { AuthContext } from './Components/Context/AuthContext';
 
 function App() {
 
@@ -35,12 +38,19 @@ function App() {
     }, {
       path: 'profile',
       element: <Profile />
+    }, {
+      path: 'counter',
+      element: <Counter />
     },]
   }])
 
   return (
     <>
-      <RouterProvider router={router} />
+      <AuthContextProvider>
+        <CounterContextProvider>
+          <RouterProvider router={router} />
+        </CounterContextProvider>
+      </AuthContextProvider>
     </>
   )
 }
